@@ -6,7 +6,7 @@ var startDate = new Date("2013"),
 
 var margin = {top:50, right:120, bottom:0, left:130},
     width = 900 -margin.left - margin.right,
-    height = 380 - margin.top - margin.bottom;
+    height = 280 - margin.top - margin.bottom;
 
 var svg = d3.select("#slider")
     .append("svg")
