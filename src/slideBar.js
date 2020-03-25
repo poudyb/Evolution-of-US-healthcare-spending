@@ -4,7 +4,7 @@ var formatDateIntoYear = d3.timeFormat("%Y");
 var startDate = new Date("2013"),
     endDate = new Date("2018");
 
-var margin = {top:50, right:120, bottom:50, left:130},
+var margin = {top:50, right:120, bottom:0, left:130},
     width = 900 -margin.left - margin.right,
     height = 380 - margin.top - margin.bottom;
 
