@@ -1,11 +1,10 @@
 var formatDateIntoYear = d3.timeFormat("%Y");
-var formatDate = d3.timeFormat("%b %Y");
 
 
 var startDate = new Date("2013"),
-    endDate = new Date("2017");
+    endDate = new Date("2018");
 
-var margin = {top:50, right:120, bottom:0, left:130},
+var margin = {top:50, right:120, bottom:50, left:130},
     width = 900 -margin.left - margin.right,
     height = 380 - margin.top - margin.bottom;
 
@@ -33,7 +32,7 @@ slider.append("line")
     .attr("class", "track-overlay")
     .call(d3.drag()
         .on("start.interrupt", function() { slider.interrupt(); })
-        .on("start drag", function() {x.invert(d3.event.x); }));
+        .on("start drag", function() {update(x.invert(d3.event.x)); }));
 
 slider.insert("g", ".track-overlay")
     .attr("class", "ticks")
@@ -50,16 +49,16 @@ slider.insert("g", ".track-overlay")
 var label = slider.append("text")  
     .attr("class", "label")
     .attr("text-anchor", "middle")
-    .text(formatDate(startDate))
+    .text(formatDateIntoYear(startDate))
     .attr("transform", "translate(0," + (-25) + ")")
 
 var handle = slider.insert("circle", ".track-overlay")
     .attr("class", "handle")
     .attr("r", 9);
 
-slider.transition() // Gratuitous intro!
-    .duration(750)
-    .tween( function() {
-      var i = d3.interpolate(0, 70);
-      return function(t) { hue(i(t)); };
-    });
+function update(h) {
+  handle.attr("cx", x(h));
+  label
+    .attr("x", x(h))
+    .text(formatDateIntoYear(h));
+}
