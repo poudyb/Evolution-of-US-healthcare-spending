@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Evolution of US healthcare spending</title>
-    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <script src="https://d3js.org/d3-queue.v2.min.js"></script>
     <script src="data/ridge.geojson"></script>
     <script src="data/transform.geojson"></script>
     <script src="data/trench.geojson"></script>
    
-
     <style>
     body {
       font-family:"avenir next", Arial, sans-serif;
@@ -93,7 +95,6 @@
       stroke-linecap: round;
       pointer-events: none;
     }
-
     
     h2 {
     top: 50px;
@@ -104,23 +105,16 @@
     }
   </style>
 </head>
-<link rel="stylesheet" href="d3.slider.css" />
-
 
 <body>
     <h1>Evolution of US healthcare spending</h1>
-    <div id="slider"></div>
     
-    
+    <div id="slider"></div> 
     <script src="src/slideBar.js"></script>
 
     <div class="col-sm"><div id="slider-time"></div></div>
 
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    
     <script src="src/map.js"></script>
-   
-  </div>
-</body>
-</html>
+    </body>
 </html>
