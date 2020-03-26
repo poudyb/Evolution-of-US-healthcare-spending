@@ -57,3 +57,18 @@ var label = slider.append("text")
     .attr("class", "handle")
     .attr("r", 9);
 
+function update(h) {
+    // update position and text of label according to slider scale
+    handle.attr("cx", x(h));
+    label
+        .attr("x", x(h))
+        .text(formatDateIntoYear(h));
+
+    //filter data set and redraw plot
+    var newData = dataset.filter(function(d) {
+        return d.date < h;
+    })
+    //drawHeatMap(newData);
+}
+
+

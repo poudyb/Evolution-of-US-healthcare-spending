@@ -1,10 +1,15 @@
 var width="960", height="600";
+
 var svg = d3.select("body").append("svg").attr("width", width).attr("height",height);
 
+d3.queue()
+    .defer(d3.json, "https://cdn.jsdelivr.net/npm/us-atlas@3/states-albers-10m.json") // Loading US States
+    .await(ready); // The method 'ready' runs when all the input JSONs are loaded
 
 var path = d3.geoPath();
 
-d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-albers-10m.json", function(error, us) {
+//Function that runs when the data is loaded
+function ready(error, us) {
   if (error) throw error;
 
   svg.append("g")
@@ -30,19 +35,5 @@ d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-albers-10m.json", functi
     .attr('font-size','6.5pt')
     .attr("text-anchor","middle")
     .style('fill', 'darkOrange');
- 
-});
+ };
 
-function update(h) {
-    // update position and text of label according to slider scale
-    handle.attr("cx", x(h));
-    label
-        .attr("x", x(h))
-        .text(formatDateIntoYear(h));
-
-    //filter data set and redraw plot
-    var newData = dataset.filter(function(d) {
-        return d.date < h;
-    })
-    //drawHeatMap(newData);
-}
