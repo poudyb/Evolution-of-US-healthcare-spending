@@ -1,6 +1,6 @@
-var dataTime = d3.range(0, 5).map(function(d) {
+var dataTime = d3.range(0, 5).map(function (d) {
     return new Date(2013 + d, 1, 1);
-  });
+});
 
 var existingYear = null;
 
@@ -22,7 +22,7 @@ var sliderTime = d3
     .tickValues(dataTime)
     .default(new Date(2013, 1, 1))
     .on('onchange', val => {
-        d3.select('p#value-time').text('Year: '+d3.timeFormat('%Y')(val));
+        d3.select('p#value-time').text('Year: ' + d3.timeFormat('%Y')(val));
         var year = `${d3.timeFormat('%Y')(sliderTime.value())}`;
         drawIfDifferent(year);
     });
@@ -37,5 +37,5 @@ var gTime = d3
 
 gTime.call(sliderTime);
 
-d3.select('p#value-time').text('Year: '+d3.timeFormat('%Y')(sliderTime.value()));
+d3.select('p#value-time').text('Year: ' + d3.timeFormat('%Y')(sliderTime.value()));
 inputYear = `${d3.timeFormat('%Y')(sliderTime.value())}`
