@@ -32,7 +32,7 @@ function ready(error, us, spending, statesWithId){
  * this function should be called from the slidebar with just a year and reuse
  * data that got loaded on page load in ready function
  */
-function drawHeatMapWithWindow(year) {
+function drawHeatMapWithYear(year) {
     var { us, spending, statesWithId } = window.loaded;
     return drawHeatMap(us, spending, statesWithId, year);
 }
@@ -49,7 +49,7 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
 
     var totalSpending = {}; // An empty object for holding dataset
     spending.forEach(function(d) {
-      if (d.yr === inputYear) {
+      if (d.yr == inputYear) {
         totalSpending[d.state] = d.spend_pm; // Storing the total spending for each state
     }});
     console.log(totalSpending)
