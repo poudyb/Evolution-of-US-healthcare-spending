@@ -17,7 +17,7 @@ var sliderTime = d3
     .min(d3.min(dataTime))
     .max(d3.max(dataTime))
     .step(1000 * 60 * 60 * 24 * 365)
-    .width(300)
+    .width(900)
     .tickFormat(d3.timeFormat('%Y'))
     .tickValues(dataTime)
     .default(new Date(2013, 1, 1))
@@ -30,7 +30,7 @@ var sliderTime = d3
 var gTime = d3
     .select('div#slider-time')
     .append('svg')
-    .attr('width', 500)
+    .attr('width', 1000)
     .attr('height', 100)
     .append('g')
     .attr('transform', 'translate(30,30)');
