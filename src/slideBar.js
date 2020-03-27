@@ -16,7 +16,7 @@ function drawIfDifferent(year) {
         return;
 
     existingYear = year;
-    console.log('drawing year', year)
+    console.log('drawing year', year);
     drawHeatMapWithYear(year);
 }
 
