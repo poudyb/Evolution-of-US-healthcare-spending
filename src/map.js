@@ -33,6 +33,7 @@ function ready(error, us, spending, statesWithId){
  * data that got loaded on page load in ready function
  */
 function drawHeatMapWithYear(year) {
+    console.log('Drawing the heatmap for the year', year)
     var { us, spending, statesWithId } = window.loaded;
     return drawHeatMap(us, spending, statesWithId, year);
 }
@@ -52,7 +53,6 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
       if (d.yr == inputYear) {
         totalSpending[d.state] = d.spend_pm; // Storing the total spending for each state
     }});
-    console.log(totalSpending)
 
     var heatmapColors = d3.scaleThreshold()
     .domain([3000,3500, 4000, 4500, 5000, 5500, 6000, 6500])
@@ -82,14 +82,13 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
         return heatmapColors(totalSpending[stateName]); })
     .attr("class","incident")
 
-   // Placeholder for on hover
    .on("mouseover", function(d){
        tooltip.html(d.properties.name +"<br />"+ 'Total Spending: '+ parseFloat(totalSpending[abbreviatedName[d.properties.name]]).toFixed(2)); 
        return tooltip.style("visibility", "visible");})
    .on("mousemove", function(){return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
    .on("mouseout", function(){return tooltip.style("visibility", "hidden");})
-   .on('click', d => { alert(d.properties.name); })
-   ;
+      // Placeholder for on-click. 
+   .on('click', d => { alert(d.properties.name); });
 
 
   svg.append("g")

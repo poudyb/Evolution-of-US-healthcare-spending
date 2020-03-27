@@ -1,43 +1,41 @@
-var formatDateIntoYear = d3.timeFormat("%Y");
+var dataTime = d3.range(0, 5).map(function(d) {
+    return new Date(2013 + d, 1, 1);
+  });
 
-var startDate = new Date("2013"),
-    endDate = new Date("2017");
-
-var margin = {top:50, right:120, bottom:0, left:130},
-    width = 900 -margin.left - margin.right,
-    height = 150 - margin.top - margin.bottom;
-
-existingYear = null;
-
-gfyOr2013 = val => val.getFullYear() == '2012' ? '2013' : val.getFullYear();
+var existingYear = null;
 
 function drawIfDifferent(year) {
     if (year === existingYear)
         return;
 
     existingYear = year;
-    console.log('drawing year', year)
     drawHeatMapWithYear(year);
 }
 
-var slider = d3.sliderHorizontal()
-    .min(startDate)
-    .max(endDate)
-    .step(1000*60*60*24*365)
-    .tickFormat(gfyOr2013)
-    .ticks(5)
-    .width(width)
-    .displayValue(false)
+var sliderTime = d3
+    .sliderBottom()
+    .min(d3.min(dataTime))
+    .max(d3.max(dataTime))
+    .step(1000 * 60 * 60 * 24 * 365)
+    .width(300)
+    .tickFormat(d3.timeFormat('%Y'))
+    .tickValues(dataTime)
+    .default(new Date(2013, 1, 1))
     .on('onchange', val => {
-        var year = val.getFullYear();
-        var nextYear = year + 1;
-        drawIfDifferent(nextYear);
+        d3.select('p#value-time').text('Year: '+d3.timeFormat('%Y')(val));
+        var year = `${d3.timeFormat('%Y')(sliderTime.value())}`;
+        drawIfDifferent(year);
     });
- 
-  d3.select('#slider')
+
+var gTime = d3
+    .select('div#slider-time')
     .append('svg')
-    .attr('width', '100%')
-    .attr('height', height)
+    .attr('width', 500)
+    .attr('height', 100)
     .append('g')
-    .attr('transform', 'translate(30,30)')
-    .call(slider);
+    .attr('transform', 'translate(30,30)');
+
+gTime.call(sliderTime);
+
+d3.select('p#value-time').text('Year: '+d3.timeFormat('%Y')(sliderTime.value()));
+inputYear = `${d3.timeFormat('%Y')(sliderTime.value())}`
