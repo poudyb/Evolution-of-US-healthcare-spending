@@ -34,6 +34,19 @@ var heatmapColors = d3.scaleThreshold()
     .range(["fbe9e7", "#ffccbc", "#ffab91", "#ff8a65", "#ff7043", "#ff5722", "#e64a19", "bf360C", "933a16"]);
 
 
+var tooltip = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "15")
+    .style("visibility", "hidden")
+    .style("background", "#eeeeee")
+    .style('padding', '20px')
+    .style('border', '2px solid grey')
+    .style('border-radius', '5px')
+    .style('font-size', '1.5em')
+    .style('text-align', 'center')
+
+
 /**
  * Draw Heat Map with preloaded variables from window
  *
@@ -41,9 +54,13 @@ var heatmapColors = d3.scaleThreshold()
  * data that got loaded on page load in ready function
  */
 function drawHeatMapWithYear(year) {
-    console.log('Drawing the heatmap for the year', year)
-    var { us, spending, statesWithId } = window.loaded;
+    console.log('Drawing the heatmap for the year', year);
     var {us, spending, statesWithId} = window.loaded;
+
+    var abbreviatedName = {};
+    statesWithId.forEach(function (d) {
+        abbreviatedName[d.name] = d.abbreviation;
+    });
 
     var totalSpending = {}; // An empty object for holding dataset
     spending.forEach(function (d) {
@@ -52,13 +69,14 @@ function drawHeatMapWithYear(year) {
         }
     });
 
-    svg.select("#states")
+    svg.select("#state-background")
         .selectAll("path")
+        .data(topojson.feature(us, us.objects.states).features)
         .style("fill", function (d) {
             stateName = abbreviatedName[d.properties.name];
             return heatmapColors(totalSpending[stateName]);
         });
-    return drawHeatMap(us, spending, statesWithId, year);
+    // return drawHeatMap(us, spending, statesWithId, year);
 }
 
 //Function that runs when the data is loaded
@@ -72,22 +90,11 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
     });
 
     var totalSpending = {}; // An empty object for holding dataset
-    spending.forEach(function(d) {
-      if (d.yr == inputYear) {
-        totalSpending[d.state] = d.spend_pm; // Storing the total spending for each state
-    }});
-
-    var tooltip = d3.select("body")
-        .append("div")
-        .style("position", "absolute")
-        .style("z-index", "15")
-        .style("visibility", "hidden")
-        .style("background", "#eee")
-        .style('padding', '20px')
-        .style('border', '2px solid grey')
-        .style('border-radius', '5px')
-        .style('font-size', '1.5em')
-        .style('text-align', 'center')
+    spending.forEach(function (d) {
+        if (d.yr == inputYear) {
+            totalSpending[d.state] = d.spend_pm; // Storing the total spending for each state
+        }
+    });
 
     svg.append("g")
         .attr("class", "states")
@@ -102,14 +109,21 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
             return heatmapColors(totalSpending[stateName]);
         })
         .attr("class", "incident")
-
-   .on("mouseover", function(d){
-       tooltip.html(d.properties.name +"<br />"+ 'Total Spending: '+ parseFloat(totalSpending[abbreviatedName[d.properties.name]]).toFixed(2));
-       return tooltip.style("visibility", "visible");})
-   .on("mousemove", function(){return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
-   .on("mouseout", function(){return tooltip.style("visibility", "hidden");})
-      // Placeholder for on-click.
-   .on('click', d => { alert(d.properties.name); });
+        .on("mouseover", function (d) {
+            tooltip.html(d.properties.name + "<br />" + 'Total Spending: ' +
+                parseFloat(totalSpending[abbreviatedName[d.properties.name]]).toFixed(2));
+            return tooltip.style("visibility", "visible");
+        })
+        .on("mousemove", function () {
+            return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
+        })
+        .on("mouseout", function () {
+            return tooltip.style("visibility", "hidden");
+        })
+        // Placeholder for on-click.
+        .on('click', d => {
+            alert(d.properties.name);
+        });
 
 
     svg.append("g")
