@@ -71,12 +71,10 @@ function drawHeatMapWithYear(year) {
 
     svg.select("#state-background")
         .selectAll("path")
-        .data(topojson.feature(us, us.objects.states).features)
         .style("fill", function (d) {
             stateName = abbreviatedName[d.properties.name];
             return heatmapColors(totalSpending[stateName]);
         });
-    // return drawHeatMap(us, spending, statesWithId, year);
 }
 
 //Function that runs when the data is loaded
