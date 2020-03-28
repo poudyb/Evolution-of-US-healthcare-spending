@@ -34,11 +34,11 @@ function ready(allData) {
     drawBarChart();
 }
 
-
 var heatmapColors = d3.scaleThreshold()
     .domain([3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500])
     .range(["fbe9e7", "#ffccbc", "#ffab91", "#ff8a65", "#ff7043", "#ff5722", "#e64a19", "bf360C", "933a16"]);
 
+var legendText = [">= $3K", ">= $3.5K", ">= $4k", ">= $4.5K", ">= $5K"," >= $5.5K",">= $6K", ">= $6.5K"];
 
 var tooltip = d3.select("body")
     .append("div")
@@ -159,3 +159,28 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
         .style('pointer-events', 'none')
         .style('fill', 'black');
 };
+
+var legend = d3.select("#legend").append("svg")
+      			.attr("class", "legend")
+     			.attr("width", 200)
+    			.attr("height", 500)
+                .selectAll("g")
+   				.data(heatmapColors.domain().slice())
+   				.enter()
+   				.append("g")
+     			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  	legend.append("rect")
+          .attr("width", 18)
+      	  .attr("height", 18)
+   		  .style("fill", heatmapColors);
+
+  	legend.append("text")
+  		  .data(legendText)
+      	  .attr("x", 24)
+      	  .attr("y", 9)
+      	  .attr("dy", ".35em")
+      	  .text(function(d) { return d; });
+
+    
+
