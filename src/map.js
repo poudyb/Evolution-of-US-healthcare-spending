@@ -160,27 +160,25 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
         .style('fill', 'black');
 };
 
-var legend = d3.select("#legend").append("svg")
-      			.attr("class", "legend")
-     			.attr("width", 200)
-    			.attr("height", 500)
-                .selectAll("g")
-   				.data(heatmapColors.domain().slice())
-   				.enter()
-   				.append("g")
-     			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+  var legend = svg.selectAll(".legend")
+      .data(heatmapColors.domain().slice())
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(" + "-50," + i * 20 + ")"; });
 
-  	legend.append("rect")
-          .attr("width", 18)
-      	  .attr("height", 18)
-   		  .style("fill", heatmapColors);
+  legend.append("rect")
+      .attr("x", width - 130)
+      .attr("y",  340)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", heatmapColors);
 
-  	legend.append("text")
-  		  .data(legendText)
-      	  .attr("x", 24)
-      	  .attr("y", 9)
-      	  .attr("dy", ".35em")
-      	  .text(function(d) { return d; });
+  legend.append("text")
+      .data(legendText)
+      .attr("x", width- 106)
+      .attr("y", 350)
+      .attr("dy", ".35em")
+      .text(function(d) { return d; });
 
     
 

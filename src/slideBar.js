@@ -30,7 +30,7 @@ var sliderTime = d3.sliderBottom()
 var gTime = d3
     .select('div#slider-time')
     .append('svg')
-    .attr('width', 1000)
+    .attr('width', width)
     .attr('height', 100)
     .append('g')
     .attr('transform', 'translate(30,30)');
