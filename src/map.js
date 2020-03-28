@@ -6,12 +6,13 @@ var svg = d3.select("#us-map").append("svg").attr("width", width).attr("height",
 
 var currentState = null;
 
-d3.queue()
-    .defer(d3.json, "https://cdn.jsdelivr.net/npm/us-atlas@3/states-albers-10m.json") // Loading US States
-    .defer(d3.csv, "data/StateData.csv")
-    //.defer(d3.csv, "/data/temp.csv")
-    .defer(d3.csv, "data/StatesWithId.csv")
-    .await(ready); // The method 'ready' runs when all the input JSONs are loaded
+var promises = [
+    d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-albers-10m.json"),
+    d3.csv("data/StateData.csv"),
+    d3.csv("data/StatesWithId.csv")
+];
+
+Promise.all(promises).then(ready); // The method 'ready' runs when all the input JSONs are loaded
 
 var path = d3.geoPath();
 
@@ -21,8 +22,11 @@ var path = d3.geoPath();
  * store data in window and draw first heatmap using default year as defined
  * in drawHeatMap fn
  */
-function ready(error, us, spending, statesWithId) {
-    if (error) alert('there was an error');
+function ready(allData) {
+    var us = allData[0];
+    var spending = allData[1];
+    var statesWithId = allData[2];
+    // if (error) alert('there was an error');
     window.loaded = {
         us, spending, statesWithId
     };
@@ -124,7 +128,9 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
         })
         // Placeholder for on-click.
         .on('click', d => {
-            alert(d.properties.name);
+            // alert(d.properties.name);
+            currentState = abbreviatedName[d.properties.name];
+            drawBarChart(inputYear, abbreviatedName[d.properties.name])
         });
 
 

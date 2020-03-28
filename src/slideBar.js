@@ -24,6 +24,7 @@ var sliderTime = d3.sliderBottom()
         d3.select('p#value-time').text('Year: ' + d3.timeFormat('%Y')(val));
         var year = `${d3.timeFormat('%Y')(sliderTime.value())}`;
         drawIfDifferent(year);
+        drawBarChart(year, currentState);
     });
 
 var gTime = d3
