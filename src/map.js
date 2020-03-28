@@ -1,13 +1,14 @@
-var width = "960", height = "600";
+const width = Math.round(window.innerWidth * 0.6), height = window.innerHeight;
+const slideDuration = 200;
 // document.currentScript.getAttribute('inputYear');
 
-var svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
+var svg = d3.select("#us-map").append("svg").attr("width", width).attr("height", height);
 
-var currentState = null
+var currentState = null;
 
 d3.queue()
     .defer(d3.json, "https://cdn.jsdelivr.net/npm/us-atlas@3/states-albers-10m.json") // Loading US States
-    .defer(d3.csv, "data/StateDataWithTotalSpending.csv")
+    .defer(d3.csv, "data/StateData.csv")
     //.defer(d3.csv, "/data/temp.csv")
     .defer(d3.csv, "data/StatesWithId.csv")
     .await(ready); // The method 'ready' runs when all the input JSONs are loaded
@@ -25,7 +26,8 @@ function ready(error, us, spending, statesWithId) {
     window.loaded = {
         us, spending, statesWithId
     };
-    drawHeatMap(us, spending, statesWithId)
+    drawHeatMap(us, spending, statesWithId);
+    drawBarChart();
 }
 
 
@@ -64,17 +66,19 @@ function drawHeatMapWithYear(year) {
 
     var totalSpending = {}; // An empty object for holding dataset
     spending.forEach(function (d) {
-        if (d.yr == year) {
+        if (d.yr == year && d.hcci_hl_cat == "Total") {
             totalSpending[d.state] = d.spend_pm; // Storing the total spending for each state
         }
     });
 
     svg.select("#state-background")
         .selectAll("path")
+        .transition().duration(slideDuration)
         .style("fill", function (d) {
             stateName = abbreviatedName[d.properties.name];
             return heatmapColors(totalSpending[stateName]);
-        });
+        })
+    ;
 }
 
 //Function that runs when the data is loaded
@@ -89,7 +93,7 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
 
     var totalSpending = {}; // An empty object for holding dataset
     spending.forEach(function (d) {
-        if (d.yr == inputYear) {
+        if (d.yr == inputYear && d.hcci_hl_cat == "Total") {
             totalSpending[d.state] = d.spend_pm; // Storing the total spending for each state
         }
     });

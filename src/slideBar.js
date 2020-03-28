@@ -12,12 +12,11 @@ function drawIfDifferent(year) {
     drawHeatMapWithYear(year);
 }
 
-var sliderTime = d3
-    .sliderBottom()
+var sliderTime = d3.sliderBottom()
     .min(d3.min(dataTime))
     .max(d3.max(dataTime))
     .step(1000 * 60 * 60 * 24 * 365)
-    .width(900)
+    .width(Math.round(width * 0.85))
     .tickFormat(d3.timeFormat('%Y'))
     .tickValues(dataTime)
     .default(new Date(2013, 1, 1))
@@ -38,4 +37,4 @@ var gTime = d3
 gTime.call(sliderTime);
 
 d3.select('p#value-time').text('Year: ' + d3.timeFormat('%Y')(sliderTime.value()));
-inputYear = `${d3.timeFormat('%Y')(sliderTime.value())}`
+inputYear = `${d3.timeFormat('%Y')(sliderTime.value())}`;
