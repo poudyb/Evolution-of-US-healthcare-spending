@@ -1,5 +1,5 @@
 const width = Math.round(window.innerWidth * 0.6), height = window.innerHeight;
-const slideDuration = 200;
+const slideDuration = 200, tooltipDuration = 100;
 // document.currentScript.getAttribute('inputYear');
 
 var svg = d3.select("#us-map").append("svg").attr("width", width).attr("height", height);
@@ -116,13 +116,16 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
         })
         .attr("class", "incident")
         .on("mouseover", function (d) {
-            tooltip.html(d.properties.name + "<br />" + 'Total Spending: ' +
+            tooltip.html(d.properties.name + "<br />" + 'Total Spending: \$' +
                 parseFloat(totalSpending[abbreviatedName[d.properties.name]]).toFixed(2));
-            return tooltip.style("visibility", "visible");
+            return tooltip.transition().duration(tooltipDuration)
+                .style("visibility", "visible")
+                .style("top", (d3.event.pageY - 10) + "px")
+                .style("left", (d3.event.pageX + 10) + "px");
         })
-        .on("mousemove", function () {
-            return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
-        })
+        // .on("mousemove", function () {
+        //     return tooltip;
+        // })
         .on("mouseout", function () {
             return tooltip.style("visibility", "hidden");
         })
