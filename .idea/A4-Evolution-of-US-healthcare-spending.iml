@@ -7,5 +7,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="R Skeletons" level="application" />
     <orderEntry type="library" name="R User Library" level="project" />
+    <orderEntry type="library" name="d3-queue.v2" level="application" />
+    <orderEntry type="library" name="d3-simple-slider" level="application" />
+    <orderEntry type="library" name="d3.v5" level="application" />
   </component>
 </module>

@@ -1,16 +1,18 @@
-var width = "960", height = "600";
+const width = Math.round(window.innerWidth * 0.6), height = window.innerHeight;
+const slideDuration = 200;
 // document.currentScript.getAttribute('inputYear');
 
-var svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
+var svg = d3.select("#us-map").append("svg").attr("width", width).attr("height", height);
 
-var currentState = null
+var currentState = null;
 
-d3.queue()
-    .defer(d3.json, "https://cdn.jsdelivr.net/npm/us-atlas@3/states-albers-10m.json") // Loading US States
-    .defer(d3.csv, "data/StateDataWithTotalSpending.csv")
-    //.defer(d3.csv, "/data/temp.csv")
-    .defer(d3.csv, "data/StatesWithId.csv")
-    .await(ready); // The method 'ready' runs when all the input JSONs are loaded
+var promises = [
+    d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-albers-10m.json"),
+    d3.csv("data/StateData.csv"),
+    d3.csv("data/StatesWithId.csv")
+];
+
+Promise.all(promises).then(ready); // The method 'ready' runs when all the input JSONs are loaded
 
 var path = d3.geoPath();
 
@@ -20,12 +22,16 @@ var path = d3.geoPath();
  * store data in window and draw first heatmap using default year as defined
  * in drawHeatMap fn
  */
-function ready(error, us, spending, statesWithId) {
-    if (error) alert('there was an error');
+function ready(allData) {
+    var us = allData[0];
+    var spending = allData[1];
+    var statesWithId = allData[2];
+    // if (error) alert('there was an error');
     window.loaded = {
         us, spending, statesWithId
     };
-    drawHeatMap(us, spending, statesWithId)
+    drawHeatMap(us, spending, statesWithId);
+    drawBarChart();
 }
 
 
@@ -64,17 +70,19 @@ function drawHeatMapWithYear(year) {
 
     var totalSpending = {}; // An empty object for holding dataset
     spending.forEach(function (d) {
-        if (d.yr == year) {
+        if (d.yr == year && d.hcci_hl_cat == "Total") {
             totalSpending[d.state] = d.spend_pm; // Storing the total spending for each state
         }
     });
 
     svg.select("#state-background")
         .selectAll("path")
+        .transition().duration(slideDuration)
         .style("fill", function (d) {
             stateName = abbreviatedName[d.properties.name];
             return heatmapColors(totalSpending[stateName]);
-        });
+        })
+    ;
 }
 
 //Function that runs when the data is loaded
@@ -89,7 +97,7 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
 
     var totalSpending = {}; // An empty object for holding dataset
     spending.forEach(function (d) {
-        if (d.yr == inputYear) {
+        if (d.yr == inputYear && d.hcci_hl_cat == "Total") {
             totalSpending[d.state] = d.spend_pm; // Storing the total spending for each state
         }
     });
@@ -120,7 +128,9 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
         })
         // Placeholder for on-click.
         .on('click', d => {
-            alert(d.properties.name);
+            // alert(d.properties.name);
+            currentState = abbreviatedName[d.properties.name];
+            drawBarChart(inputYear, abbreviatedName[d.properties.name])
         });
 
 
