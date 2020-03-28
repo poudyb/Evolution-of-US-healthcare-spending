@@ -41,8 +41,7 @@ function drawBarChart(year = '2013', state = null) {
         .range([margin.left, chartWidth - margin.right]);
 
     if (state != null) {
-        console.log('plotting ' + state);
-        console.log(barChart.select('#bars'));
+        console.log(currentStateData);
         barChart.select('#bars')
             .selectAll('rect')
             .data(currentStateData)
@@ -50,7 +49,7 @@ function drawBarChart(year = '2013', state = null) {
             .transition().duration(slideDuration)
             .attr('x', x(0))
             .attr('y', d => y(d.hcci_hl_cat))
-            .attr('width', d => x(d.spend_pm))
+            .attr('width', d => x(d.spend_pm) - x(0))
             .attr('height', y.bandwidth())
             .style('fill', barColors[0])
             .style('stroke', 'white');
@@ -63,7 +62,7 @@ function drawBarChart(year = '2013', state = null) {
         .transition().duration(slideDuration)
         .attr('x', x(0))
         .attr('y', d => y(d.hcci_hl_cat))
-        .attr('width', d => x(d.spend_pm))
+        .attr('width', d => x(d.spend_pm) - x(0))
         .attr('height', y.bandwidth())
         .style('fill', '#dddddd')
         .style('opacity', 0.5)
@@ -74,9 +73,9 @@ function drawBarChart(year = '2013', state = null) {
         .data(currentUSData)
         .join('line')
         .transition().duration(slideDuration)
-        .attr('x1', d => x(0) + x(d.spend_pm))
+        .attr('x1', d => x(d.spend_pm))
         .attr('y1', d => y(d.hcci_hl_cat))
-        .attr('x2', d => x(0) + x(d.spend_pm))
+        .attr('x2', d => x(d.spend_pm))
         .attr('y2', d => y(d.hcci_hl_cat) + y.bandwidth())
         .style('stroke', '#1C1C1C')
         .style('stroke-width', '3px')
