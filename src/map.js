@@ -2,7 +2,13 @@ const width = Math.round(window.innerWidth * 0.6), height = window.innerHeight;
 const slideDuration = 200, tooltipDuration = 100;
 // document.currentScript.getAttribute('inputYear');
 
-var svg = d3.select("#us-map").append("svg").attr("width", width).attr("height", height);
+ratio = width / 900;
+
+var svg = d3.select("#us-map").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 " + width * ratio + " " + height * ratio);
 
 var currentState = null;
 
@@ -54,7 +60,7 @@ var tooltip = d3.select("body")
 
 function formatNumber(num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-    }
+}
 
 /**
  * Draw Heat Map with preloaded variables from window
@@ -154,9 +160,9 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
                 + "<br />" + 'Professional Services Spending: \$' + formatNumber(parseFloat(selectedPH).toFixed(0))
                 + "<br />" + 'Prescription Drug Spending: \$' + formatNumber(parseFloat(selectedRX).toFixed(0))
                 + "<hr />" +
-                "<b>" + 'Total Spending per Insured Member: \$' + formatNumber(parseFloat(total_sp).toFixed(0)) 
-                );
-           // tooltip().title().fontDecoration("underline");
+                "<b>" + 'Total Spending per Insured Member: \$' + formatNumber(parseFloat(total_sp).toFixed(0))
+            );
+            // tooltip().title().fontDecoration("underline");
             return tooltip.transition().duration(tooltipDuration)
                 .style("visibility", "visible")
                 .style("top", (d3.event.pageY - 10) + "px")
@@ -197,7 +203,7 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
         .attr("text-anchor", "middle")
         .style('pointer-events', 'none')
         .style('fill', 'black');
-};
+}
 
 var legend = svg.selectAll(".legend")
     .data(heatmapColors.domain().slice())
@@ -207,7 +213,7 @@ var legend = svg.selectAll(".legend")
         return "translate(" + "-50," + i * 20 + ")";
     });
 
-legendOffset = 0.85
+legendOffset = 0.95;
 
 legend.append("rect")
     .attr("x", width * legendOffset)

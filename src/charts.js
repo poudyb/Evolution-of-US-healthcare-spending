@@ -2,7 +2,16 @@ const chartWidth = Math.round(window.innerWidth * 0.3),
     chartHeight = Math.round(window.innerHeight * 0.3);
 const padWidth = Math.round(window.innerWidth * 0.05);
 
-const margin = ({top: 10, right: 10, bottom: 20, left: 105})
+console.log('chart width' + chartWidth);
+
+d3.select("#right-side")
+    .style('max-width', chartWidth);
+
+d3.select(".wrap_text")
+    .style('max-width', chartWidth);
+
+
+const margin = ({top: 10, right: 10, bottom: 20, left: 105});
 var barChart = d3.select("#bar-chart")
     .style('padding', padWidth)
     .append("svg")
