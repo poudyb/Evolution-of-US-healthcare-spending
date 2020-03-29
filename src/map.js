@@ -2,13 +2,13 @@ const width = Math.round(window.innerWidth * 0.6), height = window.innerHeight;
 const slideDuration = 200, tooltipDuration = 100;
 // document.currentScript.getAttribute('inputYear');
 
-ratio = 1000 / width;
+viewSize = 1000
 
 var svg = d3.select("#us-map").append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("preserveAspectRatio", "xMinYMin meet")
-    .attr("viewBox", "0 0 " + width * ratio + " " + height * ratio);
+    .attr("viewBox", "0 0 " + viewSize + " " + height / width * viewSize);
 
 var currentState = null;
 
@@ -219,7 +219,7 @@ var legend = svg.selectAll(".legend")
 legendOffset = 0.95;
 
 legend.append("rect")
-    .attr("x", width * legendOffset)
+    .attr("x", viewSize * legendOffset)
     .attr("y", 340)
     .attr("width", 18)
     .attr("height", 18)
@@ -227,7 +227,7 @@ legend.append("rect")
 
 legend.append("text")
     .data(legendText)
-    .attr("x", width * legendOffset + 25)
+    .attr("x", viewSize * (legendOffset + .025))
     .attr("y", 350)
     .attr("dy", ".35em")
     .text(function (d) {
@@ -235,7 +235,7 @@ legend.append("text")
     });
 
 svg.append("text")
-    .attr("x", width * legendOffset - 50)
+    .attr("x", viewSize * (legendOffset - 0.05))
     .attr("y", 320)
     .attr("dy", ".35em")
     .style("font-weight", "bold")
