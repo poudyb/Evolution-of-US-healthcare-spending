@@ -5,10 +5,10 @@ const padWidth = Math.round(window.innerWidth * 0.05);
 console.log('chart width' + chartWidth);
 
 d3.select("#right-side")
-    .style('max-width', chartWidth);
+    .style('width', chartWidth + 'px');
 
-d3.select(".wrap_text")
-    .style('max-width', chartWidth);
+d3.selectAll(".wrap_text")
+    .style('max-width', chartWidth + 'px');
 
 
 const margin = ({top: 10, right: 10, bottom: 20, left: 105});
