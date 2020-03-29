@@ -2,7 +2,7 @@ var dataTime = d3.range(0, 5).map(function (d) {
     return new Date(2013 + d, 1, 1);
 });
 
-var existingYear = null;
+var existingYear = '2013';
 
 function drawIfDifferent(year) {
     if (year === existingYear)
@@ -30,7 +30,7 @@ var sliderTime = d3.sliderBottom()
 var gTime = d3
     .select('div#slider-time')
     .append('svg')
-    .attr('width', 1000)
+    .attr('width', width)
     .attr('height', 100)
     .append('g')
     .attr('transform', 'translate(30,30)');
