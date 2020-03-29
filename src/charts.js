@@ -2,7 +2,7 @@ const chartWidth = Math.round(window.innerWidth * 0.3),
     chartHeight = Math.round(window.innerHeight * 0.3);
 const padWidth = Math.round(window.innerWidth * 0.05);
 
-const margin = ({top: 10, right: 10, bottom: 20, left: 40})
+const margin = ({top: 10, right: 10, bottom: 20, left: 105})
 var barChart = d3.select("#bar-chart")
     .style('padding', padWidth)
     .append("svg")
@@ -88,6 +88,15 @@ function drawBarChart(year = '2013', state = null) {
     barChart.select('#y-axis')
         .attr('transform', `translate(${margin.left}, 0)`)
         .call(d3.axisLeft(y))
+/*
+    barChart.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("Value vs Date Graph"); 
+        */
 
     // console.log(window.loaded);
 }
