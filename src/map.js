@@ -3,7 +3,9 @@ const width = Math.round(window.innerWidth * 0.6),
 const slideDuration = 200, tooltipDuration = 100;
 // document.currentScript.getAttribute('inputYear');
 
-viewSize = 1000
+viewSize = 1000;
+
+d3.select("#writeup").style("max-width", width + 'px');
 
 var svg = d3.select("#us-map").append("svg")
     .attr("width", width)
