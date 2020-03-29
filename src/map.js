@@ -38,7 +38,7 @@ var heatmapColors = d3.scaleThreshold()
     .domain([3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500])
     .range(["fbe9e7", "#ffccbc", "#ffab91", "#ff8a65", "#ff7043", "#ff5722", "#e64a19", "bf360C", "933a16"]);
 
-var legendText = [">= $3K", ">= $3.5K", ">= $4k", ">= $4.5K", ">= $5K"," >= $5.5K",">= $6K", ">= $6.5K"];
+var legendText = [">= $3K", ">= $3.5K", ">= $4k", ">= $4.5K", ">= $5K", " >= $5.5K", ">= $6K", ">= $6.5K"];
 
 var tooltip = d3.select("body")
     .append("div")
@@ -160,25 +160,37 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
         .style('fill', 'black');
 };
 
-  var legend = svg.selectAll(".legend")
-      .data(heatmapColors.domain().slice())
-      .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(" + "-50," + i * 20 + ")"; });
+var legend = svg.selectAll(".legend")
+    .data(heatmapColors.domain().slice())
+    .enter().append("g")
+    .attr("class", "legend")
+    .attr("transform", function (d, i) {
+        return "translate(" + "-50," + i * 20 + ")";
+    });
 
-  legend.append("rect")
-      .attr("x", width - 130)
-      .attr("y",  340)
-      .attr("width", 18)
-      .attr("height", 18)
-      .style("fill", heatmapColors);
+legendOffset = 0.85
 
-  legend.append("text")
-      .data(legendText)
-      .attr("x", width- 106)
-      .attr("y", 350)
-      .attr("dy", ".35em")
-      .text(function(d) { return d; });
+legend.append("rect")
+    .attr("x", width * legendOffset)
+    .attr("y", 340)
+    .attr("width", 18)
+    .attr("height", 18)
+    .style("fill", heatmapColors);
 
+legend.append("text")
+    .data(legendText)
+    .attr("x", width * legendOffset + 25)
+    .attr("y", 350)
+    .attr("dy", ".35em")
+    .text(function (d) {
+        return d;
+    });
+
+svg.append("text")
+    .attr("x", width * legendOffset - 50)
+    .attr("y", 320)
+    .attr("dy", ".35em")
+    .style("font-weight", "bold")
+    .text("Total Spending");
     
 
