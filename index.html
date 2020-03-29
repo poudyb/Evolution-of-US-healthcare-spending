@@ -53,11 +53,29 @@
         div {
             float: left
         }
+        .chart {
+            float: none;
+            max-width: 600px;
+        }
+        .wrap_text {
+            position: relative;
+            max-width: 600px;
+            top: 10px;
+        }
+
+        .text {
+            position: relative;
+            top: 5px;
+            left: 10px;
+            font-size: 1.2em;
+        }
+
+
     </style>
 </head>
 
 <body>
-    <h1>Evolution of US healthcare spending</h1>
+    <h1>Evolution of US Healthcare Spending: How did healthcare costs change across the country from 2013 to 2017?</h1>
 
     <div class="container">
         <div class="row align-items-center">
@@ -69,12 +87,35 @@
     </div>
 
     <div class="container">
-        <div id="us-map"></div>
-        <div id="bar-chart"></div>
-    </div>
+            <div id="us-map"></div>
+            <div class="container">
+            <h1>Per Capita Spending: Selected State vs National Average</h1>
+            <h2>Click on state to see its spend data here</h2>
+                <div class="chart" id="bar-chart"></div>
+                    <div class="wrap_text">
+                        <div class="text">
+                            <b>Legend: </b>Blue bars represent spend data by category for selected state in selected year. Black lines represent national average for the same year.
+                        
+                        </br></br><b>Per capita spend data</b> represents the value of the commercial insurance claims filed and paid by claim category for individuals covered by 
+                                employer-sponsored insurance (ESI) plans in the selected year, divided by the number of insured-years (number of insured individuals * fractional
+                                years insured) to estimate the cost per insured individual, even for insured individuals who did not utilize healthcare services during that year.
+                        </br></br> <b> Data Source and Methodology: </b>
+                            Data sourced from the Healthcare Cost Institute: an independent, non-profit organization with leading health care claims datasets to enable 
+                                research, policy and journalism. Claims represent employer-sponsored insurance (ESI spending), which excludes government plans (Medicaid & Medicare). 
+                                The included data subset displayed here consists of approximately 40M covered lives per year & 4.6B claim lines, representing ~26% of all
+                                individuals less than 65 on ESI. The analytical methodology is detailed in full <a href="https://healthcostinstitute.org/images/pdfs/HCCI_2017_Methodology_public_v20.pdf">here</a> 
+                                and the dataset utilized can be found at <a href="https://healthcostinstitute.org/images/pdfs/Final_State_Tot_HL_190123.csv">this link</a> (note 
+                                that CSV download will start automatically).
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <script src="src/map.js"></script>
     <script src="src/slideBar.js"></script>
     <script src="src/charts.js"></script>
+    
 </body>
 </html>
