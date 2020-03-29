@@ -1,4 +1,5 @@
-const width = Math.round(window.innerWidth * 0.6), height = window.innerHeight;
+const width = Math.round(window.innerWidth * 0.6),
+    height = Math.round(window.innerHeight * 0.75);
 const slideDuration = 200, tooltipDuration = 100;
 // document.currentScript.getAttribute('inputYear');
 
