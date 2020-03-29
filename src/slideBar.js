@@ -2,7 +2,7 @@ var dataTime = d3.range(0, 5).map(function (d) {
     return new Date(2013 + d, 1, 1);
 });
 
-var existingYear = null;
+var existingYear = '2013';
 
 function drawIfDifferent(year) {
     if (year === existingYear)

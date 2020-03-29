@@ -2,7 +2,7 @@ const width = Math.round(window.innerWidth * 0.6), height = window.innerHeight;
 const slideDuration = 200, tooltipDuration = 100;
 // document.currentScript.getAttribute('inputYear');
 
-ratio = width / 900;
+ratio = 1000 / width;
 
 var svg = d3.select("#us-map").append("svg")
     .attr("width", width)
@@ -42,7 +42,8 @@ function ready(allData) {
 
 var heatmapColors = d3.scaleThreshold()
     .domain([3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500])
-    .range(["fbe9e7", "#ffccbc", "#ffab91", "#ff8a65", "#ff7043", "#ff5722", "#e64a19", "bf360C", "933a16"]);
+    .range(["#fbe9e7", "#ffccbc", "#ffab91", "#ff8a65", "#ff7043", "#ff5722", "#e64a19",
+        "#bf360C"]);
 
 var legendText = [">= $3K", ">= $3.5K", ">= $4k", ">= $4.5K", ">= $5K", " >= $5.5K", ">= $6K", ">= $6.5K"];
 
@@ -142,12 +143,14 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
         })
         .attr("class", "incident")
         .on("mouseover", function (d) {
+            stateName = abbreviatedName[d.properties.name];
             var total_sp = totalSpending[stateName];
-            selectedData = spending.filter(d => d.state === stateName && d.yr === inputYear);
+            selectedData = spending.filter(d => d.state === stateName && d.yr === existingYear);
             selectedIP = selectedData.filter(d => d.hcci_hl_cat == "Inpatient")[0].spend_pm;
             selectedOP = selectedData.filter(d => d.hcci_hl_cat == "Outpatient")[0].spend_pm;
             selectedPH = selectedData.filter(d => d.hcci_hl_cat == "Professional Services")[0].spend_pm;
             selectedRX = selectedData.filter(d => d.hcci_hl_cat == "Prescription Drugs")[0].spend_pm;
+            selectedTotal = selectedData.filter(d => d.hcci_hl_cat == "Total")[0].spend_pm;
             /*console.log(ip_select);
             inpatient_selected = spending.filter(d => d.state === stateName && d.yr === inputYear && d.hcci_hl_cat == "Inpatient")[0].spend_pm;
             console.log(inpatient_selected[0].spend_pm);
@@ -160,7 +163,7 @@ function drawHeatMap(us, spending, statesWithId, inputYear = '2013') {
                 + "<br />" + 'Professional Services Spending: \$' + formatNumber(parseFloat(selectedPH).toFixed(0))
                 + "<br />" + 'Prescription Drug Spending: \$' + formatNumber(parseFloat(selectedRX).toFixed(0))
                 + "<hr />" +
-                "<b>" + 'Total Spending per Insured Member: \$' + formatNumber(parseFloat(total_sp).toFixed(0))
+                "<b>" + 'Total Spending per Insured Member: \$' + formatNumber(parseFloat(selectedTotal).toFixed(0))
             );
             // tooltip().title().fontDecoration("underline");
             return tooltip.transition().duration(tooltipDuration)
